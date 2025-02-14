@@ -10,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -35,9 +36,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="onboarding" />
-      </Stack>
+      <ThemedView style={{ flex: 1 }}>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="onboarding" />
+        </Stack>
+      </ThemedView>
       <StatusBar style="auto" />
     </ThemeProvider>
   );

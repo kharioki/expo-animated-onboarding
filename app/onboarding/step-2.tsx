@@ -1,25 +1,28 @@
+import { ThemedText } from "@/components/ThemedText";
+import { OnBoardingLayout } from "@/components/ui/OnBoardingLayout";
 import React from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-export default function OnboardingStepOne() {
+export default function OnboardingStepTwo() {
   return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Step 2</Text>
-        <Text style={styles.description}>
-          Start your journey with our amazing app
-        </Text>
+    <OnBoardingLayout>
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <ThemedText style={styles.title}>Welcome</ThemedText>
+          <ThemedText style={styles.description}>
+            Start your journey with our amazing app
+          </ThemedText>
+        </View>
       </View>
-    </View>
+    </OnBoardingLayout>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -40,12 +43,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#333",
   },
   description: {
     fontSize: 16,
     textAlign: "center",
-    color: "#666",
     lineHeight: 24,
   },
 });
