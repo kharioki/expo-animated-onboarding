@@ -11,9 +11,24 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedView } from "@/components/ThemedView";
+import {
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+  Roboto_900Black,
+} from "@expo-google-fonts/roboto";
+import { Platform } from "react-native";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  let [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+    Roboto_900Black,
+  });
 
   useEffect(() => {
     const setNavBar = async () => {
@@ -27,12 +42,16 @@ export default function RootLayout() {
       } catch (e) {
         console.warn("Error setting navigation bar:", e);
       } finally {
-        // hide splash screen once setup is complete
-        await SplashScreen.hideAsync();
+        if (fontsLoaded) {
+          // hide splash screen once setup and fonts are complete
+          await SplashScreen.hideAsync();
+        }
       }
     };
-    setNavBar();
-  }, []);
+    if (Platform.OS === "android") {
+      setNavBar();
+    }
+  }, [fontsLoaded]);
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

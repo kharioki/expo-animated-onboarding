@@ -1,52 +1,31 @@
 import { ThemedText } from "@/components/ThemedText";
 import { OnBoardingLayout } from "@/components/ui/OnBoardingLayout";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
-
-const { width, height } = Dimensions.get("window");
+import { Image } from "expo-image";
+import { View } from "react-native";
+import { generalStyles } from "@/styles";
 
 export default function OnboardingStepOne() {
+  const primary1 = useThemeColor({}, "primary1");
   return (
-    <OnBoardingLayout>
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <ThemedText style={styles.title}>Welcome</ThemedText>
-          <ThemedText style={styles.description}>
-            Start your journey with our amazing app
+    <OnBoardingLayout
+      nextBgColor={primary1}
+      nextHref="/onboarding/step-2"
+      initial={true}
+    >
+      <View style={generalStyles.container}>
+        <Image
+          source={require("../../assets/images/react-logo3x.png")}
+          contentFit="contain"
+          style={generalStyles.image}
+        />
+        <View style={generalStyles.textContainer}>
+          <ThemedText style={[generalStyles.text, generalStyles.title]}>
+            React Native Onboarding
           </ThemedText>
         </View>
       </View>
     </OnBoardingLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  imageContainer: {
-    flex: 0.6,
-    justifyContent: "center",
-  },
-  image: {
-    width: width * 0.8,
-    height: height * 0.3,
-  },
-  textContainer: {
-    flex: 0.4,
-    alignItems: "center",
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  description: {
-    fontSize: 16,
-    textAlign: "center",
-    lineHeight: 24,
-  },
-});

@@ -1,3 +1,4 @@
+import { ThemedText } from "@/components/ThemedText";
 import { OnBoardingLayout } from "@/components/ui/OnBoardingLayout";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { generalStyles } from "@/styles";
@@ -5,22 +6,25 @@ import React from "react";
 import { View, Text, Dimensions } from "react-native";
 
 export default function OnboardingStepTwo() {
-  const primary1 = useThemeColor({}, "primary1");
+  const bg = useThemeColor({}, "background");
+  const text = useThemeColor({}, "text");
   const primary2 = useThemeColor({}, "primary2");
 
   return (
     <OnBoardingLayout
-      nextBgColor={primary2}
-      bgColor={primary1}
-      nextHref="/onboarding/step-3"
+      nextBgColor={bg}
+      nextTextColor={text}
+      bgColor={primary2}
+      nextText="START"
+      nextHref="/onboarding/welcome"
     >
       <View style={generalStyles.container}>
         <View style={generalStyles.textContainer}>
           <Text style={[generalStyles.text, generalStyles.titleBold]}>
-            Expo Router Navigation
+            Seamless Animations
           </Text>
           <Text style={[generalStyles.text, generalStyles.description]}>
-            Handles screen transitions smoothly in the onboarding flow.
+            Bringing your onboarding to life with smooth transitions.
           </Text>
         </View>
       </View>
