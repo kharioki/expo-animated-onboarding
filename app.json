@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8f3a7a93-0a82-4b5f-a4e7-5c9652baa925"
+      }
+    },
+    "owner": "solarin"
   }
 }
