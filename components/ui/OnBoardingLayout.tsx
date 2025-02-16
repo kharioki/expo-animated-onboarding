@@ -13,6 +13,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
+  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import { useNavigationState } from "@react-navigation/native";
@@ -25,7 +26,6 @@ type ValidPaths =
   | "/onboarding/welcome";
 interface OnBoardingLayoutProps {
   children: React.ReactNode;
-  initial?: boolean;
   bgColor?: string;
   nextBgColor?: string;
   nextTextColor?: string;
@@ -33,6 +33,15 @@ interface OnBoardingLayoutProps {
   nextHref?: ValidPaths;
   complete?: boolean;
 }
+
+const SPRING_CONFIG = {
+  mass: 0.75,
+  damping: 12,
+  stiffness: 120,
+  overshootClamping: false,
+  restDisplacementThreshold: 0.01,
+  restSpeedThreshold: 2,
+};
 
 export const OnBoardingLayout: React.FC<OnBoardingLayoutProps> = ({
   children,
@@ -53,6 +62,7 @@ export const OnBoardingLayout: React.FC<OnBoardingLayoutProps> = ({
   const scale = useSharedValue(1);
   const screenStack = useNavigationState((state) => state.routes);
   const initial = screenStack.length === 1;
+
   const dynamic_duration = initial
     ? 0
     : goingBack
@@ -65,6 +75,7 @@ export const OnBoardingLayout: React.FC<OnBoardingLayoutProps> = ({
     }),
     [dynamic_duration]
   );
+
   const TIMING_CONFIG = React.useMemo(
     () => ({
       duration: initial ? 0 : 600,
@@ -88,23 +99,32 @@ export const OnBoardingLayout: React.FC<OnBoardingLayoutProps> = ({
 
   const contentAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
-      { scale: withTiming(Math.min(1, scale.value - 1), TIMING_CONFIG) },
+      {
+        scale: withSpring(
+          initial ? 1 : Math.max(0, Math.min(1, scale.value - 1)),
+          SPRING_CONFIG
+        ),
+      },
     ],
     opacity: goingBack
       ? withTiming(0)
-      : withDelay(100, withTiming(Math.min(1, scale.value - 1), TIMING_CONFIG)),
+      : withDelay(120, withTiming(Math.min(1, scale.value - 1), TIMING_CONFIG)),
   }));
 
-  const handleBack = () => {
+  const handleBack = React.useCallback(() => {
     if (initial || complete) return true;
+    if (goingBack) return true; // Prevent multiple back actions
+
     setGoingBack(true);
     scale.value = 1;
+
     setTimeout(() => {
       setGoingBack(false);
       router.back();
-    }, dynamic_duration);
+    }, TIMING_CONFIG.duration);
+
     return true;
-  };
+  }, [initial, complete, goingBack, scale, TIMING_CONFIG.duration]);
 
   useFocusEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -141,7 +161,7 @@ export const OnBoardingLayout: React.FC<OnBoardingLayoutProps> = ({
             ]}
           >
             <Pressable
-              onPressIn={() => router.push(nextHref)}
+              onPress={() => router.push(nextHref)}
               style={styles.nextBtn}
             >
               <Text style={[styles.nextText, { color: nextColor }]}>

@@ -9,11 +9,7 @@ import { generalStyles } from "@/styles";
 export default function OnboardingStepOne() {
   const primary1 = useThemeColor({}, "primary1");
   return (
-    <OnBoardingLayout
-      nextBgColor={primary1}
-      nextHref="/onboarding/step-2"
-      initial={true}
-    >
+    <OnBoardingLayout nextBgColor={primary1} nextHref="/onboarding/step-2">
       <View style={generalStyles.container}>
         <Image
           source={require("../../assets/images/react-logo3x.png")}
