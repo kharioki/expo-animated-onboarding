@@ -8,13 +8,13 @@ import { View, Text, Dimensions } from "react-native";
 export default function OnboardingStepTwo() {
   const bg = useThemeColor({}, "background");
   const text = useThemeColor({}, "text");
-  const primary2 = useThemeColor({}, "primary2");
+  const primary3 = useThemeColor({}, "primary3");
 
   return (
     <OnBoardingLayout
       nextBgColor={bg}
       nextTextColor={text}
-      bgColor={primary2}
+      bgColor={primary3}
       nextText="START"
       nextHref="/onboarding/welcome"
     >

@@ -8,8 +8,9 @@ import { generalStyles } from "@/styles";
 
 export default function OnboardingStepOne() {
   const primary1 = useThemeColor({}, "primary1");
+  const primary3 = useThemeColor({}, "primary3");
   return (
-    <OnBoardingLayout nextBgColor={primary1} nextHref="/onboarding/step-2">
+    <OnBoardingLayout bgColor={primary3} nextBgColor={primary1} nextHref="/onboarding/step-2">
       <View style={generalStyles.container}>
         <Image
           source={require("../../assets/images/react-logo3x.png")}
@@ -18,7 +19,7 @@ export default function OnboardingStepOne() {
         />
         <View style={generalStyles.textContainer}>
           <ThemedText style={[generalStyles.text, generalStyles.title]}>
-            React Native Onboarding
+            Expo Animated Onboarding
           </ThemedText>
         </View>
       </View>
